@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 import { updateAwardStatus } from "~/lib/directus";
 
 type Params = {
-  params: {
+  params: Promise<{
     awardId: string;
-  };
+  }>;
 };
 
 type StatusRequestBody = {
@@ -13,7 +13,8 @@ type StatusRequestBody = {
 };
 
 export async function POST(request: Request, { params }: Params) {
-  const awardId = Number.parseInt(params.awardId, 10);
+  const { awardId: awardIdParam } = await params;
+  const awardId = Number.parseInt(awardIdParam, 10);
 
   if (Number.isNaN(awardId)) {
     return NextResponse.json(
