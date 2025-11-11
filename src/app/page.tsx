@@ -1,0 +1,46 @@
+import { Suspense } from "react";
+
+import { CeremonyOverview } from "./_components/ceremony-overview";
+
+import {
+  buildCeremonySummary,
+  getAwardsByCeremony,
+  getCeremonies,
+  getAwardCategories,
+  getParticipants,
+  getTeams,
+} from "~/lib/directus";
+
+async function CeremonyOverviewLoader() {
+  const [ceremonies, awards, categories, participants, teams] = await Promise.all([
+    getCeremonies(),
+    getAwardsByCeremony(),
+    getAwardCategories(),
+    getParticipants(),
+    getTeams(),
+  ]);
+
+  const summary = buildCeremonySummary(awards);
+
+  return (
+    <CeremonyOverview
+      ceremonies={ceremonies}
+      initialSummary={summary}
+      categories={categories}
+      participants={participants}
+      teams={teams}
+    />
+  );
+}
+
+export default async function Home() {
+  return (
+    <main className="min-h-screen bg-slate-900">
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 pb-12 pt-6 sm:px-6 lg:px-8">
+        <Suspense fallback={<div className="text-white">Loading...</div>}>
+          <CeremonyOverviewLoader />
+        </Suspense>
+      </div>
+    </main>
+  );
+}
