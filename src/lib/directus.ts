@@ -255,7 +255,7 @@ export type CeremonySummary = {
   }>;
 };
 
-function getNomineeLabel(award: DirectusAwardRecord): string {
+export function getNomineeLabel(award: DirectusAwardRecord): string {
   if (award.type === "individual" && award.participant_nominee) {
     const name = formatPersonName(award.participant_nominee);
     return name || "Individual nominee";

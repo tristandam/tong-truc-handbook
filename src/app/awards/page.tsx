@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 
-import { SimpleOverview } from "./_components/simple-overview";
+import { AwardsPage } from "../_components/awards-page";
 
 import {
-  buildParticipantTeamSummary,
+  buildCeremonySummary,
   getAwardsByCeremony,
   getCeremonies,
   getAwardCategories,
@@ -11,7 +11,7 @@ import {
   getTeams,
 } from "~/lib/directus";
 
-async function OverviewLoader() {
+async function AwardsPageLoader() {
   const [ceremonies, awards, categories, participants, teams] = await Promise.all([
     getCeremonies(),
     getAwardsByCeremony(),
@@ -20,10 +20,10 @@ async function OverviewLoader() {
     getTeams(),
   ]);
 
-  const summary = buildParticipantTeamSummary(awards, participants, teams);
+  const summary = buildCeremonySummary(awards);
 
   return (
-    <SimpleOverview
+    <AwardsPage
       ceremonies={ceremonies}
       initialSummary={summary}
       categories={categories}
@@ -33,14 +33,15 @@ async function OverviewLoader() {
   );
 }
 
-export default async function Home() {
+export default async function AwardsPageRoute() {
   return (
     <main className="min-h-screen bg-slate-900">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 pb-12 pt-6 sm:px-6 lg:px-8">
         <Suspense fallback={<div className="text-white">Loading...</div>}>
-          <OverviewLoader />
+          <AwardsPageLoader />
         </Suspense>
       </div>
     </main>
   );
 }
+

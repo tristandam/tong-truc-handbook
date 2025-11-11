@@ -202,11 +202,11 @@ export function ParticipantTeamOverview({
 
   return (
     <div className="space-y-6">
-      <header className="sticky top-0 z-10 bg-slate-900 pb-4 pt-2">
+      <header className="sticky top-[57px] z-10 bg-slate-900 pb-4 pt-2">
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold text-white">
-              Awards overview
+              Participants
             </h1>
           </div>
           <div className="flex gap-2 overflow-x-auto pb-1">
